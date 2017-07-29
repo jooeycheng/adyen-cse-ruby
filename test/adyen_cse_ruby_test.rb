@@ -9,6 +9,8 @@ class AdyenCseRubyTest < Minitest::Test
             "57D345F990BB5D8D0C92033639FAC27AD232D9D474896668572F494065BC7747FF4B809FE3084A5E947F72E59309EDEAA5F2D8" \
             "1027429BF4827FB62006F763AFB2153C4A959E579390679FFD7ADE1DFE627955628DC6F2669A321626D699A094FFF98243A7C105"
 
+  TEST_CARD = { holder_name: "Adyen Shopper", number: "4111111111111111", expiry_month: "01", expiry_year: "2018", cvc: "737" }
+
   def public_key
     PUB_EXPONENT + "|" + MODULUS
   end
@@ -20,18 +22,22 @@ class AdyenCseRubyTest < Minitest::Test
   def test_initialize_encrypter
     cse = AdyenCseRuby::Encrypter.new do |card|
       card.public_key   = public_key
-      card.holder_name  = "Joey Cheng"
-      card.number       = "4111111111111111"
-      card.expiry_month = "01"
-      card.expiry_year  = "2018"
-      card.cvc          = "737"
+      card.holder_name  = TEST_CARD[:holder_name]
+      card.number       = TEST_CARD[:number]
+      card.expiry_month = TEST_CARD[:expiry_month]
+      card.expiry_year  = TEST_CARD[:expiry_year]
+      card.cvc          = TEST_CARD[:cvc]
     end
 
     assert_equal cse.public_key, public_key
-    assert_equal cse.holder_name, "Joey Cheng"
-    assert_equal cse.number, "4111111111111111"
-    assert_equal cse.expiry_month, "01"
-    assert_equal cse.expiry_year, "2018"
-    assert_equal cse.cvc, "737"
+    assert_instance_of Time, cse.generation_time
+
+    json = cse.card_data_json
+    assert_equal json.keys.sort, ["cvc", "expiryMonth", "expiryYear", "generationtime", "holderName", "number"]
+    assert_equal json["holderName"], TEST_CARD[:holder_name]
+    assert_equal json["number"], TEST_CARD[:number]
+    assert_equal json["expiryMonth"], TEST_CARD[:expiry_month]
+    assert_equal json["expiryYear"], TEST_CARD[:expiry_year]
+    assert_equal json["cvc"], TEST_CARD[:cvc]
   end
 end
