@@ -12,13 +12,14 @@ module AdyenCseRuby
     end
 
     def card_data_json
+      # keys sorted alphabetically
       {
-        "holderName" => holder_name,
-        "number" => number,
         "cvc" => cvc,
         "expiryMonth" => expiry_month,
         "expiryYear" => expiry_year,
         "generationtime" => generation_time.utc.strftime("%FT%T.%LZ"),
+        "holderName" => holder_name,
+        "number" => number,
       }
     end
   end
