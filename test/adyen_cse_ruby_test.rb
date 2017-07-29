@@ -34,10 +34,10 @@ class AdyenCseRubyTest < Minitest::Test
 
     json = cse.card_data_json
     assert_equal json.keys.sort, ["cvc", "expiryMonth", "expiryYear", "generationtime", "holderName", "number"]
-    assert_equal json["holderName"], TEST_CARD[:holder_name]
-    assert_equal json["number"], TEST_CARD[:number]
-    assert_equal json["expiryMonth"], TEST_CARD[:expiry_month]
-    assert_equal json["expiryYear"], TEST_CARD[:expiry_year]
-    assert_equal json["cvc"], TEST_CARD[:cvc]
+    assert_equal TEST_CARD[:holder_name], json["holderName"]
+    assert_equal TEST_CARD[:number], json["number"]
+    assert_equal TEST_CARD[:expiry_month], json["expiryMonth"]
+    assert_equal TEST_CARD[:expiry_year], json["expiryYear"]
+    assert_equal TEST_CARD[:cvc], json["cvc"]
   end
 end
