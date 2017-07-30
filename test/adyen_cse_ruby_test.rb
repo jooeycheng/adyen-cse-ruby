@@ -40,4 +40,12 @@ class AdyenCseRubyTest < Minitest::Test
     assert_equal TEST_CARD[:expiry_year], json["expiryYear"]
     assert_equal TEST_CARD[:cvc], json["cvc"]
   end
+
+  def test_parse_public_key
+    pubkey = AdyenCseRuby::Encrypter.parse_public_key(public_key)
+
+    assert_equal 2048, pubkey.n.num_bytes * 8
+    assert_equal EXPONENT.to_i(16), pubkey.e
+    assert_equal MODULUS.to_i(16), pubkey.n
+  end
 end
