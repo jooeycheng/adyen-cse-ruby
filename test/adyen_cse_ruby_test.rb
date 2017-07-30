@@ -48,4 +48,19 @@ class AdyenCseRubyTest < Minitest::Test
     assert_equal EXPONENT.to_i(16), pubkey.e
     assert_equal MODULUS.to_i(16), pubkey.n
   end
+
+  def test_encrypted_nonce_format
+    cse = AdyenCseRuby::Encrypter.new do |card|
+      card.public_key   = public_key
+      card.holder_name  = TEST_CARD[:holder_name]
+      card.number       = TEST_CARD[:number]
+      card.expiry_month = TEST_CARD[:expiry_month]
+      card.expiry_year  = TEST_CARD[:expiry_year]
+      card.cvc          = TEST_CARD[:cvc]
+    end
+    encrypted_nonce = cse.encrypt
+
+    assert encrypted_nonce.start_with?(AdyenCseRuby::Encrypter::PREFIX + AdyenCseRuby::Encrypter::VERSION)
+    assert_equal 2, encrypted_nonce.count("$")
+  end
 end
