@@ -63,4 +63,15 @@ class AdyenCseRubyTest < Minitest::Test
     assert encrypted_nonce.start_with?(AdyenCseRuby::Encrypter::PREFIX + AdyenCseRuby::Encrypter::VERSION)
     assert_equal 2, encrypted_nonce.count("$")
   end
+
+  def test_ccm_encryption
+    key        = ["404142434445464748494a4b4c4d4e4f"].pack('H*')
+    nonce      = ["10111213141516"].pack('H*')
+    data       = ["68656c6c6f20776f726c642121"].pack('H*')
+    ciphertext = ["39264f148b54c456035de0a531c8344f46db12b388"].pack('H*')
+
+    cipher = OpenSSL::CCM.new("AES", key, 8)
+
+    assert_equal ciphertext, cipher.encrypt(data, nonce)
+  end
 end
