@@ -20,7 +20,7 @@ module AdyenCseRuby
         "generationtime" => generation_time.utc.strftime("%FT%T.%LZ"),
         "holderName" => holder_name,
         "number" => number,
-      }
+      }.to_json
     end
 
     def self.parse_public_key(public_key)
