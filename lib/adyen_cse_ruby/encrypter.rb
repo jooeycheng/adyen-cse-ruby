@@ -1,14 +1,35 @@
+require "securerandom"
+require "base64"
+require "openssl/ccm"
+require "json"
+
 module AdyenCseRuby
   class Encrypter
     PREFIX    = "adyenan"
     VERSION   = "0_1_1"
-    SEPARATOR = "$"
 
     attr_accessor :public_key, :holder_name, :number, :expiry_month, :expiry_year, :cvc, :generation_time
 
     def initialize
       yield self
       self.generation_time ||= Time.now
+    end
+
+    def encrypt
+      # TODO: add strong validations
+      key   = SecureRandom.random_bytes(32)
+      nonce = SecureRandom.random_bytes(12)
+      data  = card_data_json.to_s
+
+      ccm = OpenSSL::CCM.new("AES", key, 8)
+      encrypted_card = ccm.encrypt(data, nonce)
+
+      rsa = self.class.parse_public_key(public_key)
+      encrypted_aes_key = rsa.public_encrypt(key)
+
+      encrypted_card_component = nonce + encrypted_card
+
+      [PREFIX, VERSION, "$", Base64.strict_encode64(encrypted_aes_key), "$", Base64.strict_encode64(encrypted_card_component)].join
     end
 
     def card_data_json
