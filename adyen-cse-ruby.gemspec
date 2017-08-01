@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["jooeycheng@gmail.com"]
 
   spec.summary       = %q{Adyen Client-side encryption library for Ruby}
-  spec.description   = %q{Port of Adyen Android CSE library to Ruby gem}
+  spec.description   = %q{Adyen's Client Side Encryption (CSE) library for Ruby.}
   spec.homepage      = "https://github.com/jooeycheng/adyen-cse-ruby"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
