@@ -33,5 +33,5 @@ cse = AdyenCse::Encrypter.new(public_key) do |card|
   card.cvc          = "737"
 end
 
-encrypted_nonce = cse.encrypt!
+encrypted_card = cse.encrypt!
 ```
