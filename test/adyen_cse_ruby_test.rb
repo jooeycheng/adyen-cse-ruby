@@ -32,13 +32,13 @@ class AdyenCseRubyTest < Minitest::Test
     assert_equal cse.public_key, public_key
     assert_instance_of Time, cse.generation_time
 
-    json = cse.card_data_json
-    assert_equal json.keys.sort, ["cvc", "expiryMonth", "expiryYear", "generationtime", "holderName", "number"]
-    assert_equal TEST_CARD[:holder_name], json["holderName"]
-    assert_equal TEST_CARD[:number], json["number"]
-    assert_equal TEST_CARD[:expiry_month], json["expiryMonth"]
-    assert_equal TEST_CARD[:expiry_year], json["expiryYear"]
-    assert_equal TEST_CARD[:cvc], json["cvc"]
+    card_data = cse.card_data
+    assert_equal card_data.keys.sort, ["cvc", "expiryMonth", "expiryYear", "generationtime", "holderName", "number"]
+    assert_equal TEST_CARD[:holder_name], card_data["holderName"]
+    assert_equal TEST_CARD[:number], card_data["number"]
+    assert_equal TEST_CARD[:expiry_month], card_data["expiryMonth"]
+    assert_equal TEST_CARD[:expiry_year], card_data["expiryYear"]
+    assert_equal TEST_CARD[:cvc], card_data["cvc"]
   end
 
   def test_parse_public_key

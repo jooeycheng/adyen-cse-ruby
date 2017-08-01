@@ -19,7 +19,7 @@ module AdyenCseRuby
       # TODO: add strong validations
       key   = SecureRandom.random_bytes(32)
       nonce = SecureRandom.random_bytes(12)
-      data  = card_data_json.to_s
+      data  = card_data.to_json
 
       ccm = OpenSSL::CCM.new("AES", key, 8)
       encrypted_card = ccm.encrypt(data, nonce)
@@ -32,7 +32,7 @@ module AdyenCseRuby
       [PREFIX, VERSION, "$", Base64.strict_encode64(encrypted_aes_key), "$", Base64.strict_encode64(encrypted_card_component)].join
     end
 
-    def card_data_json
+    def card_data
       # keys sorted alphabetically
       {
         "cvc" => cvc,
@@ -41,7 +41,7 @@ module AdyenCseRuby
         "generationtime" => generation_time.utc.strftime("%FT%T.%LZ"),
         "holderName" => holder_name,
         "number" => number,
-      }.to_json
+      }
     end
 
     def self.parse_public_key(public_key)
