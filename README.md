@@ -26,11 +26,11 @@ Or install it yourself as:
 
 ```ruby
 cse = AdyenCse::Encrypter.new(public_key) do |card|
-  card.holder_name  = TEST_CARD[:holder_name]
-  card.number       = TEST_CARD[:number]
-  card.expiry_month = TEST_CARD[:expiry_month]
-  card.expiry_year  = TEST_CARD[:expiry_year]
-  card.cvc          = TEST_CARD[:cvc]
+  card.holder_name  = "Adyen Shopper"
+  card.number       = "4111111111111111"
+  card.expiry_month = "08"
+  card.expiry_year  = "2018"
+  card.cvc          = "737"
 end
 
 encrypted_nonce = cse.encrypt!
