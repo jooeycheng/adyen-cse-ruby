@@ -1,6 +1,6 @@
-# Adyen CSE for Ruby
-
 [![Build Status](https://travis-ci.org/jooeycheng/adyen-cse-ruby.svg?branch=master)](https://travis-ci.org/jooeycheng/adyen-cse-ruby)
+
+# Adyen CSE for Ruby
 
 Adyen's Client Side Encryption (CSE) library for Ruby.
 
