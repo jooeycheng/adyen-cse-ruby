@@ -3,7 +3,7 @@ require "base64"
 require "openssl/ccm"
 require "json"
 
-module AdyenCseRuby
+module AdyenCse
   class Encrypter
     PREFIX    = "adyenrb"
     VERSION   = "0_1_1"
