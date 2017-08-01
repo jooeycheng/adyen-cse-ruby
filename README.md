@@ -27,6 +27,8 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
+require 'adyen_cse'
+
 cse = AdyenCse::Encrypter.new(public_key) do |card|
   card.holder_name  = "Adyen Shopper"
   card.number       = "4111111111111111"
