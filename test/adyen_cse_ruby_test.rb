@@ -8,7 +8,7 @@ class AdyenCseRubyTest < Minitest::Test
              "57D345F990BB5D8D0C92033639FAC27AD232D9D474896668572F494065BC7747FF4B809FE3084A5E947F72E59309EDEAA5F2D8" \
              "1027429BF4827FB62006F763AFB2153C4A959E579390679FFD7ADE1DFE627955628DC6F2669A321626D699A094FFF98243A7C105"
 
-  TEST_CARD = { holder_name: "Adyen Shopper", number: "4111111111111111", expiry_month: "01", expiry_year: "2018", cvc: "737" }
+  TEST_CARD = { holder_name: "Adyen Shopper", number: "4111111111111111", expiry_month: "08", expiry_year: "2018", cvc: "737" }
 
   def public_key
     EXPONENT + "|" + MODULUS
