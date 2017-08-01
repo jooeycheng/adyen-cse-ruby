@@ -5,7 +5,7 @@ require "json"
 
 module AdyenCseRuby
   class Encrypter
-    PREFIX    = "adyenan"
+    PREFIX    = "adyenrb"
     VERSION   = "0_1_1"
 
     attr_reader   :public_key
