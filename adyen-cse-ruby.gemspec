@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'adyen_cse_ruby/version'
+require 'adyen_cse/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "adyen_cse_ruby"
-  spec.version       = AdyenCseRuby::VERSION
+  spec.name          = "adyen-cse-ruby"
+  spec.version       = AdyenCse::VERSION
   spec.authors       = ["Joey Cheng"]
   spec.email         = ["jooeycheng@gmail.com"]
 

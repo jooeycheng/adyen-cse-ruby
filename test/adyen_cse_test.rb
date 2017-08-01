@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AdyenCseRubyTest < Minitest::Test
+class AdyenCseTest < Minitest::Test
   EXPONENT = "10001"
   MODULUS  = "9201EBD5DC974FDE613A85AFF2728627FD2C227F18CF1C864FBBA3781908BB7BD72C818FC37D0B70EF8708705C623DF4A9427A" \
              "051B3C8205631716AAAC3FCB76114D91036E0CAEFA454254D135A1A197C1706A55171D26A2CC3E9371B86A725458E82AB82C84" \
@@ -8,18 +8,18 @@ class AdyenCseRubyTest < Minitest::Test
              "57D345F990BB5D8D0C92033639FAC27AD232D9D474896668572F494065BC7747FF4B809FE3084A5E947F72E59309EDEAA5F2D8" \
              "1027429BF4827FB62006F763AFB2153C4A959E579390679FFD7ADE1DFE627955628DC6F2669A321626D699A094FFF98243A7C105"
 
-  TEST_CARD = { holder_name: "Adyen Shopper", number: "4111111111111111", expiry_month: "01", expiry_year: "2018", cvc: "737" }
+  TEST_CARD = { holder_name: "Adyen Shopper", number: "4111111111111111", expiry_month: "08", expiry_year: "2018", cvc: "737" }
 
   def public_key
     EXPONENT + "|" + MODULUS
   end
 
   def test_that_it_has_a_version_number
-    refute_nil ::AdyenCseRuby::VERSION
+    refute_nil ::AdyenCse::VERSION
   end
 
   def test_initialize_encrypter
-    cse = AdyenCseRuby::Encrypter.new(public_key) do |card|
+    cse = AdyenCse::Encrypter.new(public_key) do |card|
       card.holder_name  = TEST_CARD[:holder_name]
       card.number       = TEST_CARD[:number]
       card.expiry_month = TEST_CARD[:expiry_month]
@@ -40,7 +40,7 @@ class AdyenCseRubyTest < Minitest::Test
   end
 
   def test_parse_public_key
-    pubkey = AdyenCseRuby::Encrypter.parse_public_key(public_key)
+    pubkey = AdyenCse::Encrypter.parse_public_key(public_key)
 
     assert_equal 2048, pubkey.n.num_bytes * 8
     assert_equal EXPONENT.to_i(16), pubkey.e
@@ -48,7 +48,7 @@ class AdyenCseRubyTest < Minitest::Test
   end
 
   def test_encrypted_nonce_format
-    cse = AdyenCseRuby::Encrypter.new(public_key) do |card|
+    cse = AdyenCse::Encrypter.new(public_key) do |card|
       card.holder_name  = TEST_CARD[:holder_name]
       card.number       = TEST_CARD[:number]
       card.expiry_month = TEST_CARD[:expiry_month]
@@ -57,7 +57,7 @@ class AdyenCseRubyTest < Minitest::Test
     end
     encrypted_nonce = cse.encrypt!
 
-    assert encrypted_nonce.start_with?(AdyenCseRuby::Encrypter::PREFIX + AdyenCseRuby::Encrypter::VERSION)
+    assert encrypted_nonce.start_with?(AdyenCse::Encrypter::PREFIX + AdyenCse::Encrypter::VERSION)
     assert_equal 2, encrypted_nonce.count("$")
   end
 
@@ -73,7 +73,7 @@ class AdyenCseRubyTest < Minitest::Test
   end
 
   def test_validations
-    cse = AdyenCseRuby::Encrypter.new(public_key) do |card|
+    cse = AdyenCse::Encrypter.new(public_key) do |card|
       card.holder_name  = nil
     end
 

@@ -3,9 +3,9 @@ require "base64"
 require "openssl/ccm"
 require "json"
 
-module AdyenCseRuby
+module AdyenCse
   class Encrypter
-    PREFIX    = "adyenan"
+    PREFIX    = "adyenrb"
     VERSION   = "0_1_1"
 
     attr_reader   :public_key
