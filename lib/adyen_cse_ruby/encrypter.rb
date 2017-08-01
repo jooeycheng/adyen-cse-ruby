@@ -17,8 +17,9 @@ module AdyenCseRuby
       self.generation_time ||= Time.now
     end
 
-    def encrypt
-      # TODO: add strong validations
+    def encrypt!
+      validate!
+
       key   = SecureRandom.random_bytes(32)
       nonce = SecureRandom.random_bytes(12)
       data  = card_data.to_json
@@ -52,6 +53,14 @@ module AdyenCseRuby
       OpenSSL::PKey::RSA.new.tap do |rsa|
         rsa.e = OpenSSL::BN.new(exponent)
         rsa.n = OpenSSL::BN.new(modulus)
+      end
+    end
+
+    private
+
+    def validate!
+      %w(holder_name number expiry_month expiry_year cvc generation_time).each do |param|
+        raise ArgumentError, "param `#{param}' is required" if instance_variable_get("@#{param}").nil?
       end
     end
   end

@@ -55,7 +55,7 @@ class AdyenCseRubyTest < Minitest::Test
       card.expiry_year  = TEST_CARD[:expiry_year]
       card.cvc          = TEST_CARD[:cvc]
     end
-    encrypted_nonce = cse.encrypt
+    encrypted_nonce = cse.encrypt!
 
     assert encrypted_nonce.start_with?(AdyenCseRuby::Encrypter::PREFIX + AdyenCseRuby::Encrypter::VERSION)
     assert_equal 2, encrypted_nonce.count("$")
@@ -70,5 +70,15 @@ class AdyenCseRubyTest < Minitest::Test
     cipher = OpenSSL::CCM.new("AES", key, 8)
 
     assert_equal ciphertext, cipher.encrypt(data, nonce)
+  end
+
+  def test_validations
+    cse = AdyenCseRuby::Encrypter.new(public_key) do |card|
+      card.holder_name  = nil
+    end
+
+    assert_raises ArgumentError do
+      cse.encrypt!
+    end
   end
 end
