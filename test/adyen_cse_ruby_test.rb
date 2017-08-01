@@ -20,8 +20,7 @@ class AdyenCseRubyTest < Minitest::Test
   end
 
   def test_initialize_encrypter
-    cse = AdyenCseRuby::Encrypter.new do |card|
-      card.public_key   = public_key
+    cse = AdyenCseRuby::Encrypter.new(public_key) do |card|
       card.holder_name  = TEST_CARD[:holder_name]
       card.number       = TEST_CARD[:number]
       card.expiry_month = TEST_CARD[:expiry_month]
@@ -50,8 +49,7 @@ class AdyenCseRubyTest < Minitest::Test
   end
 
   def test_encrypted_nonce_format
-    cse = AdyenCseRuby::Encrypter.new do |card|
-      card.public_key   = public_key
+    cse = AdyenCseRuby::Encrypter.new(public_key) do |card|
       card.holder_name  = TEST_CARD[:holder_name]
       card.number       = TEST_CARD[:number]
       card.expiry_month = TEST_CARD[:expiry_month]

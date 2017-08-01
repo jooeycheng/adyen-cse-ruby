@@ -8,9 +8,11 @@ module AdyenCseRuby
     PREFIX    = "adyenan"
     VERSION   = "0_1_1"
 
-    attr_accessor :public_key, :holder_name, :number, :expiry_month, :expiry_year, :cvc, :generation_time
+    attr_reader   :public_key
+    attr_accessor :holder_name, :number, :expiry_month, :expiry_year, :cvc, :generation_time
 
-    def initialize
+    def initialize(public_key)
+      @public_key = public_key
       yield self
       self.generation_time ||= Time.now
     end
