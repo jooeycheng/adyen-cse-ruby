@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Adyen Client-side encryption library for Ruby}
   spec.description   = %q{Adyen's Client Side Encryption (CSE) library for Ruby.}
   spec.homepage      = "https://github.com/jooeycheng/adyen-cse-ruby"
-  spec.license       = "Apache-2.0"
+  spec.licenses      = ["Apache-2.0"]
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
