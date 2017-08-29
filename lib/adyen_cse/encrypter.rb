@@ -13,7 +13,7 @@ module AdyenCse
 
     def initialize(public_key)
       @public_key = public_key
-      yield self
+      yield self rescue nil
       self.generation_time ||= Time.now
     end
 
