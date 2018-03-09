@@ -5,8 +5,8 @@ require "json"
 
 module AdyenCse
   class Encrypter
-    PREFIX    = "adyenrb"
-    VERSION   = "0_1_1"
+    PREFIX  = "adyenrb"
+    VERSION = "0_1_1"
 
     attr_reader   :public_key
     attr_accessor :holder_name, :number, :expiry_month, :expiry_year, :cvc, :generation_time
