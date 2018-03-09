@@ -8,7 +8,7 @@ class AdyenCseTest < Minitest::Test
              "57D345F990BB5D8D0C92033639FAC27AD232D9D474896668572F494065BC7747FF4B809FE3084A5E947F72E59309EDEAA5F2D8" \
              "1027429BF4827FB62006F763AFB2153C4A959E579390679FFD7ADE1DFE627955628DC6F2669A321626D699A094FFF98243A7C105"
 
-  TEST_CARD = { holder_name: "Adyen Shopper", number: "4111111111111111", expiry_month: "08", expiry_year: "2018", cvc: "737" }
+  TEST_CARD = { holder_name: "Adyen Shopper", number: 4111_1111_1111_1111.to_s, expiry_month: "08", expiry_year: "2018", cvc: "737" }
 
   def public_key
     EXPONENT + "|" + MODULUS
@@ -19,24 +19,9 @@ class AdyenCseTest < Minitest::Test
   end
 
   def test_initialize_encrypter
-    cse = AdyenCse::Encrypter.new(public_key) do |card|
-      card.holder_name  = TEST_CARD[:holder_name]
-      card.number       = TEST_CARD[:number]
-      card.expiry_month = TEST_CARD[:expiry_month]
-      card.expiry_year  = TEST_CARD[:expiry_year]
-      card.cvc          = TEST_CARD[:cvc]
-    end
+    cse = AdyenCse::Encrypter.new(public_key)
 
     assert_equal cse.public_key, public_key
-    assert_instance_of Time, cse.generation_time
-
-    card_data = cse.card_data
-    assert_equal card_data.keys.sort, ["cvc", "expiryMonth", "expiryYear", "generationtime", "holderName", "number"]
-    assert_equal TEST_CARD[:holder_name], card_data["holderName"]
-    assert_equal TEST_CARD[:number], card_data["number"]
-    assert_equal TEST_CARD[:expiry_month], card_data["expiryMonth"]
-    assert_equal TEST_CARD[:expiry_year], card_data["expiryYear"]
-    assert_equal TEST_CARD[:cvc], card_data["cvc"]
   end
 
   def test_parse_public_key
@@ -48,14 +33,14 @@ class AdyenCseTest < Minitest::Test
   end
 
   def test_encrypted_nonce_format
-    cse = AdyenCse::Encrypter.new(public_key) do |card|
-      card.holder_name  = TEST_CARD[:holder_name]
-      card.number       = TEST_CARD[:number]
-      card.expiry_month = TEST_CARD[:expiry_month]
-      card.expiry_year  = TEST_CARD[:expiry_year]
-      card.cvc          = TEST_CARD[:cvc]
-    end
-    encrypted_nonce = cse.encrypt!
+    encrypted_nonce =
+      AdyenCse::Encrypter.new(public_key).encrypt!(
+        holder_name: TEST_CARD[:holder_name],
+        number: TEST_CARD[:number],
+        expiry_month: TEST_CARD[:expiry_month],
+        expiry_year: TEST_CARD[:expiry_year],
+        cvc: TEST_CARD[:cvc],
+      )
 
     assert encrypted_nonce.start_with?(AdyenCse::Encrypter::PREFIX + AdyenCse::Encrypter::VERSION)
     assert_equal 2, encrypted_nonce.count("$")
@@ -73,9 +58,7 @@ class AdyenCseTest < Minitest::Test
   end
 
   def test_validations
-    cse = AdyenCse::Encrypter.new(public_key) do |card|
-      card.holder_name  = nil
-    end
+    cse = AdyenCse::Encrypter.new(public_key)
 
     assert_raises ArgumentError do
       cse.encrypt!
