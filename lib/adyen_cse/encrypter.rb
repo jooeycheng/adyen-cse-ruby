@@ -45,8 +45,16 @@ module AdyenCse
     def self.parse_public_key(public_key)
       exponent, modulus = public_key.split("|").map { |n| n.to_i(16) }
 
-      rsa = OpenSSL::PKey::RSA.new
-      rsa.set_key(OpenSSL::BN.new(modulus), OpenSSL::BN.new(exponent), nil)
+      # handle new ssl methods in different ruby versions
+      if RUBY_VERSION <= '2.3.1'
+        OpenSSL::PKey::RSA.new.tap do |rsa|
+          rsa.e = OpenSSL::BN.new(exponent)
+          rsa.n = OpenSSL::BN.new(modulus)
+        end
+      else
+        rsa = OpenSSL::PKey::RSA.new
+        rsa.set_key(OpenSSL::BN.new(modulus), OpenSSL::BN.new(exponent), nil)
+      end
     end
 
     private
