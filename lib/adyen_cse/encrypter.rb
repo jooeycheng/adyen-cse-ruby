@@ -45,10 +45,8 @@ module AdyenCse
     def self.parse_public_key(public_key)
       exponent, modulus = public_key.split("|").map { |n| n.to_i(16) }
 
-      OpenSSL::PKey::RSA.new.tap do |rsa|
-        rsa.e = OpenSSL::BN.new(exponent)
-        rsa.n = OpenSSL::BN.new(modulus)
-      end
+      rsa = OpenSSL::PKey::RSA.new
+      rsa.set_key(OpenSSL::BN.new(modulus), OpenSSL::BN.new(exponent), nil)
     end
 
     private
