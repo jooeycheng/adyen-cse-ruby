@@ -48,3 +48,69 @@ encrypted_card = cse.encrypt!(
   generation_time: Time.new(2015, 10, 21)
 )
 ```
+
+## factory_bot integration
+Example of an `:adyen_test_card` factory with [factory_bot](https://github.com/thoughtbot/factory_bot).
+
+```ruby
+# ./spec/factories/adyen_test_card.rb
+
+require 'adyen_cse'
+
+class AdyenTestCard
+  attr_reader :holder_name, :number, :expiry_month, :expiry_year, :cvc, :nonce
+
+  def initialize(params = {})
+    @holder_name  = params[:holder_name]
+    @number       = params[:number]
+    @expiry_month = params[:expiry_month]
+    @expiry_year  = params[:expiry_year]
+    @cvc          = params[:cvc]
+    @nonce        = params[:nonce]
+  end
+
+  def self.public_key
+    "your_public_key_here"
+  end
+end
+
+FactoryBot.define do
+  factory :adyen_test_card do
+    sequence(:holder_name) { |n| "Shopper #{n}" }
+    number { 4111_1111_1111_1111.to_s }
+    expiry_month { '08' }
+    expiry_year { '2018' }
+    cvc { '737' }
+
+    nonce do
+      AdyenCse::Encrypter.new(AdyenTestCard.public_key).encrypt!(
+        holder_name: holder_name,
+        number: number,
+        expiry_month: expiry_month,
+        expiry_year: expiry_year,
+        cvc: cvc
+      )
+    end
+
+    trait :mastercard do
+      number { 5555_5555_5555_4444.to_s }
+    end
+
+    trait :amex do
+      number { 3451_779254_88348.to_s }
+      cvc { '7373' }
+    end
+
+    skip_create
+    initialize_with { new(attributes) }
+  end
+end
+```
+
+Example usage:
+```ruby
+RSpec.describe ExamplePaymentService do
+  let(:credit_card) { FactoryBot.build(:adyen_test_card) }
+  ...
+end
+```
