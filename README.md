@@ -59,7 +59,9 @@ Example of an `:adyen_test_card` factory with [factory_bot](https://github.com/t
 require 'adyen_cse'
 
 class AdyenTestCard
-  attr_reader :holder_name, :number, :expiry_month, :expiry_year, :cvc, :nonce
+  attr_reader :holder_name, :number, :expiry_month, :expiry_year, :cvc
+  
+  PUBLIC_KEY = "your_public_key_here"
 
   def initialize(params = {})
     @holder_name  = params[:holder_name]
@@ -67,30 +69,30 @@ class AdyenTestCard
     @expiry_month = params[:expiry_month]
     @expiry_year  = params[:expiry_year]
     @cvc          = params[:cvc]
-    @nonce        = params[:nonce]
   end
 
-  def self.public_key
-    "your_public_key_here"
+  def nonce
+    AdyenCse::Encrypter.new(PUBLIC_KEY).encrypt!(
+      holder_name: holder_name,
+      number: number,
+      expiry_month: expiry_month,
+      expiry_year: expiry_year,
+      cvc: cvc
+    )
   end
 end
 
 FactoryBot.define do
   factory :adyen_test_card do
     sequence(:holder_name) { |n| "Shopper #{n}" }
-    number { 4111_1111_1111_1111.to_s }
     expiry_month { '08' }
     expiry_year { '2018' }
     cvc { '737' }
+    
+    visa
 
-    nonce do
-      AdyenCse::Encrypter.new(AdyenTestCard.public_key).encrypt!(
-        holder_name: holder_name,
-        number: number,
-        expiry_month: expiry_month,
-        expiry_year: expiry_year,
-        cvc: cvc
-      )
+    trait :visa do
+      number { 4111_1111_1111_1111.to_s }
     end
 
     trait :mastercard do
