@@ -1,5 +1,6 @@
 [![Gem Version](https://badge.fury.io/rb/adyen-cse-ruby.svg)](https://badge.fury.io/rb/adyen-cse-ruby)
 [![Build Status](https://travis-ci.org/jooeycheng/adyen-cse-ruby.svg?branch=master)](https://travis-ci.org/jooeycheng/adyen-cse-ruby)
+[![](https://api.codeclimate.com/v1/badges/ac46c6f16792ed094d7f/maintainability)](https://codeclimate.com/github/jooeycheng/adyen-cse-ruby/maintainability)
 
 # Adyen CSE for Ruby
 
