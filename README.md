@@ -26,6 +26,10 @@ Or install it yourself as:
 
     $ gem install adyen-cse-ruby
 
+## Known issue
+
+If you are facing error `OpenSSL::CCMError: unsupported cipher algorithm (AES)`, refer to [issue #11](https://github.com/jooeycheng/adyen-cse-ruby/issues/11).
+
 ## Usage
 
 ```ruby
@@ -61,7 +65,7 @@ require 'adyen_cse'
 
 class AdyenTestCard
   attr_reader :holder_name, :number, :expiry_month, :expiry_year, :cvc
-  
+
   PUBLIC_KEY = "your_public_key_here"
 
   def initialize(params = {})
@@ -89,7 +93,7 @@ FactoryBot.define do
     expiry_month { '08' }
     expiry_year { '2018' }
     cvc { '737' }
-    
+
     visa
 
     trait :visa do
