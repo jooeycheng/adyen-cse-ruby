@@ -26,10 +26,6 @@ Or install it yourself as:
 
     $ gem install adyen-cse-ruby
 
-## Known issue
-
-If you are facing error `OpenSSL::CCMError: unsupported cipher algorithm (AES)`, refer to [issue #11](https://github.com/jooeycheng/adyen-cse-ruby/issues/11).
-
 ## Usage
 
 ```ruby
