@@ -21,8 +21,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  # Temporary disabled until https://github.com/SmallLars/openssl-ccm/pull/4 is patched.
-  # spec.add_runtime_dependency "openssl-ccm"
+  spec.add_runtime_dependency "openssl-ccm"
 
   spec.add_development_dependency "bundler", "~> 1.14"
   spec.add_development_dependency "rake", "~> 10.0"
