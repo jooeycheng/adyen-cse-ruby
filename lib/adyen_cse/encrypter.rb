@@ -45,7 +45,7 @@ module AdyenCse
     def self.parse_public_key(public_key)
       exponent, modulus = public_key.split("|").map { |n| n.to_i(16) }
 
-      if RUBY_VERSION <= "2.3.1"
+      if RUBY_VERSION < '2.4.0'
         OpenSSL::PKey::RSA.new.tap do |rsa|
           rsa.e = OpenSSL::BN.new(exponent)
           rsa.n = OpenSSL::BN.new(modulus)
