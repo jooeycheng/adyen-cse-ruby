@@ -1,7 +1,9 @@
 sudo: false
 language: ruby
 rvm:
-  - 2.3.1
-  - 2.4.4
-  - 2.5.1
-before_install: gem install bundler -v 1.14.6
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
+  - 2.7
+before_install: gem install bundler -v 2.1.2 # should match version in Gemfile.lock
