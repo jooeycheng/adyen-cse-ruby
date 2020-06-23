@@ -1,8 +1,15 @@
-## Development
+Note to self.
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+## Developing
 
-To install this gem onto your local machine, run `bundle exec rake install`.
+1. Run `bin/setup` to install dependencies
+2. Run `bundle exec rake test` to run the tests
+3. Run `bin/console` for an interactive prompt (optional, for debugging)
 
-To release a new version, update the version number in `version.rb`,
-and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+## Releasing New Version
+
+1. Update version number in `version.rb`
+2. Run `bundle exec rake release`. This will:
+   1. Create a git tag with the version number
+   2. Push git commits and tags to remote
+   3. Push the `.gem` file to [rubygems.org](https://rubygems.org)
