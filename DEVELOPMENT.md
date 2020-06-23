@@ -9,7 +9,7 @@ Note to self.
 ## Releasing New Version
 
 1. Update version number in `version.rb`
-2. Run `bundle exec rake release`. This will:
+2. (preferably in master branch) Run `bundle exec rake release`. This will:
    1. Create a git tag with the version number
    2. Push git commits and tags to remote
    3. Push the `.gem` file to [rubygems.org](https://rubygems.org)
